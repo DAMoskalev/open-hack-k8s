@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile
+  namespace: back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: userprofile
+        image: registrytys9109.azurecr.io/userprofile:1.0
+        env:
+        - name: SQL_USER
+          value: sqladmintYs9109
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: SQL_PASSWORD
+        - name: SQL_SERVER
+          value: sqlservertys9109.database.windows.net        
+        ports:
+        - containerPort: 80
+          name: userprofile
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile
+  namespace: back
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: userprofile

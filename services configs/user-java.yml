@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-java
+  namespace: back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-java
+  template:
+    metadata:
+      labels:
+        app: user-java
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: user-java
+        image: registrytys9109.azurecr.io/user-java:1.0
+        env:
+        - name: SQL_USER
+          value: sqladmintYs9109
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: SQL_PASSWORD
+        - name: SQL_SERVER
+          value: sqlservertys9109.database.windows.net        
+        ports:
+        - containerPort: 80
+          name: user-java
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java
+  namespace: back
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: user-java
