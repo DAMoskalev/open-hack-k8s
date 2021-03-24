@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+  namespace: back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: poi
+        image: registrytys9109.azurecr.io/poi:1.0
+        livenessProbe:
+          httpGet:
+            path: /api/poi/healthcheck
+            port: 80
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/poi/healthcheck
+            port: 80
+          periodSeconds: 10
+        env:
+        - name: SQL_USER
+          value: sqladmintYs9109
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-secret
+              key: SQL_PASSWORD
+        - name: SQL_SERVER
+          value: sqlservertys9109.database.windows.net        
+        ports:
+        - containerPort: 80
+          name: poi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi
+  namespace: back
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: poi
