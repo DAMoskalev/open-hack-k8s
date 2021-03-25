@@ -1,0 +1,5 @@
+az aks create --resource-group teamResources --name AKSCluster2 `
+--network-plugin azure `
+--vnet-subnet-id /subscriptions/e887add1-bf84-42ec-bf6f-1ca80f17a310/resourceGroups/teamResources/providers/Microsoft.Network/virtualNetworks/vnet/subnets/vm-subnet `
+--docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.1.0.10 --service-cidr 10.1.0.0/24 --generate-ssh-keys `
+--enable-aad --aad-admin-group-object-ids 24bf4e41-2648-4a37-882f-179e8f6dda1e
