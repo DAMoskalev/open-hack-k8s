@@ -20,9 +20,10 @@ spec:
         image: registrytys9109.azurecr.io/tripviewer:1.0
         env:
         - name: TRIPS_API_ENDPOINT
-          value: http://trips:80
+          value: http://trips.back.svc.cluster.local:80
+          # value: http://trips:80
         - name: USERPROFILE_API_ENDPOINT
-          value: http://userprofile:80     
+          value: http://userprofile.back.svc.cluster.local:80     
         ports:
         - containerPort: 80
           name: tripviewer
@@ -35,7 +36,5 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 80
-  type: LoadBalancer
   selector:
     app: tripviewer
