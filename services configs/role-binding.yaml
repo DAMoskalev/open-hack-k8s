@@ -1,0 +1,58 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: front-dev-web-access
+  namespace: front
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: Group
+  namespace: front
+  name: 552f1b44-ca31-46b0-add3-82a561fa9dd3
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: front-dev-api-access
+  namespace: back
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: Group
+  namespace: back
+  name: 552f1b44-ca31-46b0-add3-82a561fa9dd3
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: back-dev-web-access
+  namespace: front
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: Group
+  namespace: front
+  name: 5456302f-c13b-44c0-bc5b-76007aac5fe9
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: back-dev-api-access
+  namespace: back
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: Group
+  namespace: back
+  name: 5456302f-c13b-44c0-bc5b-76007aac5fe9
