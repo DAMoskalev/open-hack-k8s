@@ -28,19 +28,27 @@ spec:
             path: /api/poi/healthcheck
             port: 80
           periodSeconds: 10
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/secrets"
+          readOnly: true
         env:
         - name: SQL_USER
           value: sqladmintYs9109
-        - name: SQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sql-secret
-              key: SQL_PASSWORD
         - name: SQL_SERVER
           value: sqlservertys9109.database.windows.net        
         ports:
         - containerPort: 80
           name: poi
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-kvname"
+            nodePublishSecretRef:                       # Only required when using service principal mode
+              name: secrets-store-creds           
 ---
 apiVersion: v1
 kind: Service
