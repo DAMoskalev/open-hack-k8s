@@ -1,0 +1,18 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-monitoring
+  namespace: monitoring
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: prometheus-grafana
+          servicePort: 80
+        path: /grafana
+      - backend:
+          serviceName: prometheus-kube-prometheus-prometheus
+          servicePort: 9090
+        path: /prometheus
