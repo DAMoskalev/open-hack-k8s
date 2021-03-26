@@ -26,6 +26,10 @@ spec:
           servicePort: 80
         path: /api/poi
       - backend:
+          serviceName: poi
+          servicePort: 80
+        path: /api/poi/metrics
+      - backend:
           serviceName: trips
           servicePort: 80
         path: /api/trips
@@ -37,5 +41,9 @@ spec:
           serviceName: userprofile
           servicePort: 80
         path: /api/user
+      - backend:
+          serviceName: insurance
+          servicePort: 80
+        path: /insurance
 
 
